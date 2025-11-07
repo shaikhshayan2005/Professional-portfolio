@@ -55,7 +55,7 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border pt-8 flex justify-between items-center">
-          <p className="text-foreground/60 text-sm">© 2025 Shayan Sheikh. All rights reserved.</p>
+          <p className="text-foreground/60 text-sm">© 2020 Shayan Sheikh. All rights reserved.</p>
 
           <a
             href="#"
