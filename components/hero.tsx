@@ -6,6 +6,8 @@ import { Background3D } from "./3d-background"
 
 export function Hero() {
   const tags = ["React", "Next.js", "Hasura", "Terraform"]
+  const gmailLink =
+    "https://mail.google.com/mail/?view=cm&fs=1&to=shaikhshayanshaikh2005@gmail.com&su=Project%20Inquiry"
 
   return (
     <section className="relative min-h-[100svh] flex items-center pt-28 pb-16 md:pt-32 md:pb-20 overflow-hidden">
@@ -59,7 +61,9 @@ export function Hero() {
 
             <div className="flex flex-wrap items-center gap-4 pt-1 animate-fade-up animate-delay-400">
               <a
-                href="#contact"
+                href={gmailLink}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-accent text-accent-foreground text-sm font-bold tracking-wide rounded-lg hover:brightness-110 hover:gap-3 transition-all shadow-lg shadow-accent/25"
               >
                 Let&apos;s Talk
@@ -70,13 +74,13 @@ export function Hero() {
                 {[
                   { href: "https://github.com/shaikhshayan2005", label: "GitHub", Icon: Github },
                   { href: "https://www.linkedin.com/in/sheikh-shayan-476402286/", label: "LinkedIn", Icon: Linkedin },
-                  { href: "mailto:shaikhshayanshaikh2005@gmail.com", label: "Email", Icon: Mail },
+                  { href: gmailLink, label: "Email", Icon: Mail },
                 ].map(({ href, label, Icon }) => (
                   <a
                     key={label}
                     href={href}
-                    target={href.startsWith("mailto") ? undefined : "_blank"}
-                    rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="w-11 h-11 rounded-full border border-border bg-card/60 flex items-center justify-center text-muted-foreground hover:border-accent hover:text-accent hover:bg-accent/10 transition-all duration-200"
                     aria-label={label}
                   >

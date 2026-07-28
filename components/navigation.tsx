@@ -7,6 +7,8 @@ import { Menu, X } from "lucide-react"
 export function Navigation() {
   const [isOpen, setIsOpen] = useState(false)
   const [active, setActive] = useState("Home")
+  const gmailLink =
+    "https://mail.google.com/mail/?view=cm&fs=1&to=shaikhshayanshaikh2005@gmail.com&su=Project%20Inquiry"
 
   const navItems = [
     { label: "Home", href: "#" },
@@ -45,7 +47,9 @@ export function Navigation() {
 
         <div className="hidden md:flex items-center gap-3 shrink-0">
           <a
-            href="#contact"
+            href={gmailLink}
+            target="_blank"
+            rel="noopener noreferrer"
             className="px-5 py-2.5 bg-accent text-accent-foreground text-xs font-bold tracking-widest uppercase rounded-sm hover:brightness-110 transition-all"
           >
             Let&apos;s Talk
@@ -74,7 +78,9 @@ export function Navigation() {
               </a>
             ))}
             <a
-              href="#contact"
+              href={gmailLink}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-block mt-2 px-5 py-2.5 bg-accent text-accent-foreground text-xs font-bold tracking-widest uppercase"
               onClick={() => setIsOpen(false)}
             >

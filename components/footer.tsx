@@ -5,6 +5,8 @@ import { useInView } from "@/hooks/use-in-view"
 
 export function Footer() {
   const { ref, isInView } = useInView<HTMLElement>()
+  const gmailLink =
+    "https://mail.google.com/mail/?view=cm&fs=1&to=shaikhshayanshaikh2005@gmail.com&su=Project%20Inquiry"
 
   return (
     <footer
@@ -23,7 +25,9 @@ export function Footer() {
 
         <div className="flex flex-col md:flex-row md:items-center gap-8 mb-14">
           <a
-            href="mailto:shaikhshayanshaikh2005@gmail.com"
+            href={gmailLink}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-lg md:text-xl text-foreground hover:text-accent transition-colors font-medium break-all"
           >
             shaikhshayanshaikh2005@gmail.com
@@ -33,13 +37,13 @@ export function Footer() {
             {[
               { href: "https://github.com/shaikhshayan2005", label: "GitHub", Icon: Github },
               { href: "https://www.linkedin.com/in/sheikh-shayan-476402286/", label: "LinkedIn", Icon: Linkedin },
-              { href: "mailto:shaikhshayanshaikh2005@gmail.com", label: "Email", Icon: Mail },
+              { href: gmailLink, label: "Email", Icon: Mail },
             ].map(({ href, label, Icon }) => (
               <a
                 key={label}
                 href={href}
-                target={href.startsWith("mailto") ? undefined : "_blank"}
-                rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-11 h-11 rounded-full border border-border flex items-center justify-center text-foreground/70 hover:border-accent hover:text-accent hover:scale-110 transition-all"
                 aria-label={label}
               >
@@ -50,7 +54,9 @@ export function Footer() {
         </div>
 
         <a
-          href="mailto:shaikhshayanshaikh2005@gmail.com"
+          href={gmailLink}
+          target="_blank"
+          rel="noopener noreferrer"
           className="inline-block px-8 py-3.5 bg-accent text-accent-foreground text-xs font-bold tracking-widest uppercase rounded-sm hover:brightness-110 transition-all mb-14"
         >
           Get In Touch
