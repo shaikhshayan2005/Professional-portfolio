@@ -5,115 +5,144 @@ import * as THREE from "three"
 
 export function Background3D() {
   const containerRef = useRef<HTMLDivElement>(null)
-  const sceneRef = useRef<THREE.Scene | null>(null)
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null)
-  const particlesRef = useRef<THREE.Points | null>(null)
 
   useEffect(() => {
-    if (!containerRef.current) return
+    const container = containerRef.current
+    if (!container) return
 
-    // Scene setup
     const scene = new THREE.Scene()
-    sceneRef.current = scene
+    const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 0.1, 1000)
+    camera.position.z = 28
 
-    const camera = new THREE.PerspectiveCamera(
-      75,
-      containerRef.current.clientWidth / containerRef.current.clientHeight,
-      0.1,
-      1000,
-    )
-    camera.position.z = 30
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, powerPreference: "low-power" })
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5))
+    renderer.setSize(container.clientWidth, container.clientHeight)
+    renderer.setClearColor(0x000000, 0)
+    container.appendChild(renderer.domElement)
 
-    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true })
-    rendererRef.current = renderer
-    renderer.setSize(containerRef.current.clientWidth, containerRef.current.clientHeight)
-    renderer.setClearColor(0x000000, 0.1)
-    containerRef.current.appendChild(renderer.domElement)
-
-    // Create floating particles
-    const particleCount = 100
+    // Soft floating particles
+    const particleCount = 60
     const particleGeometry = new THREE.BufferGeometry()
     const positions = new Float32Array(particleCount * 3)
 
     for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 100
-      positions[i + 1] = (Math.random() - 0.5) * 100
-      positions[i + 2] = (Math.random() - 0.5) * 100
+      positions[i] = (Math.random() - 0.5) * 80
+      positions[i + 1] = (Math.random() - 0.5) * 80
+      positions[i + 2] = (Math.random() - 0.5) * 60
     }
 
     particleGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3))
 
-    const particleMaterial = new THREE.PointsMaterial({
-      color: 0x6366f1,
-      size: 0.5,
-      sizeAttenuation: true,
-      transparent: true,
-      opacity: 0.6,
-    })
-
-    const particles = new THREE.Points(particleGeometry, particleMaterial)
+    const particles = new THREE.Points(
+      particleGeometry,
+      new THREE.PointsMaterial({
+        color: 0xff5a1f,
+        size: 0.3,
+        sizeAttenuation: true,
+        transparent: true,
+        opacity: 0.4,
+      }),
+    )
     scene.add(particles)
-    particlesRef.current = particles
 
-    // Create animated cube
-    const cubeGeometry = new THREE.BoxGeometry(8, 8, 8)
-    const cubeMaterial = new THREE.MeshPhongMaterial({
-      color: 0x4f46e5,
-      emissive: 0x4338ca,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.2,
-    })
-    const cube = new THREE.Mesh(cubeGeometry, cubeMaterial)
-    scene.add(cube)
+    // Subtle wireframe torus — light 3D accent
+    const torus = new THREE.Mesh(
+      new THREE.TorusGeometry(5.5, 1.4, 12, 48),
+      new THREE.MeshPhongMaterial({
+        color: 0xff5a1f,
+        emissive: 0x7c2d12,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.15,
+      }),
+    )
+    torus.position.set(8, 2, -4)
+    scene.add(torus)
 
-    // Lighting
-    const light = new THREE.PointLight(0xffffff, 1, 100)
-    light.position.set(10, 10, 10)
-    scene.add(light)
+    // Small icosahedron for depth
+    const ico = new THREE.Mesh(
+      new THREE.IcosahedronGeometry(2.2, 0),
+      new THREE.MeshPhongMaterial({
+        color: 0xff8a4c,
+        emissive: 0x9a3412,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.16,
+      }),
+    )
+    ico.position.set(-10, -3, -2)
+    scene.add(ico)
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3)
-    scene.add(ambientLight)
+    scene.add(new THREE.AmbientLight(0xffffff, 0.3))
+    const pointLight = new THREE.PointLight(0xff8a4c, 0.75, 120)
+    pointLight.position.set(12, 10, 16)
+    scene.add(pointLight)
 
-    // Animation loop
+    let mouseX = 0
+    let mouseY = 0
+    let targetX = 0
+    let targetY = 0
+    let frameId = 0
+    let reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+
+    const onMouseMove = (e: MouseEvent) => {
+      mouseX = (e.clientX / window.innerWidth - 0.5) * 2
+      mouseY = (e.clientY / window.innerHeight - 0.5) * 2
+    }
+
+    const onResize = () => {
+      const width = container.clientWidth
+      const height = container.clientHeight
+      camera.aspect = width / height
+      camera.updateProjectionMatrix()
+      renderer.setSize(width, height)
+    }
+
+    window.addEventListener("mousemove", onMouseMove, { passive: true })
+    window.addEventListener("resize", onResize)
+
     const animate = () => {
-      requestAnimationFrame(animate)
+      frameId = requestAnimationFrame(animate)
 
-      if (particles) {
-        particles.rotation.x += 0.0001
-        particles.rotation.y += 0.0002
+      if (!reducedMotion) {
+        targetX += (mouseX - targetX) * 0.03
+        targetY += (mouseY - targetY) * 0.03
+
+        particles.rotation.y += 0.0004
+        particles.rotation.x += 0.00015
+
+        torus.rotation.x += 0.003
+        torus.rotation.y += 0.004
+        torus.position.x = 8 + targetX * 1.2
+        torus.position.y = 2 - targetY * 0.8
+
+        ico.rotation.x -= 0.004
+        ico.rotation.z += 0.003
+        ico.position.x = -10 + targetX * 0.8
+        ico.position.y = -3 - targetY * 0.6
       }
-
-      cube.rotation.x += 0.002
-      cube.rotation.y += 0.003
-      cube.rotation.z += 0.001
 
       renderer.render(scene, camera)
     }
 
     animate()
 
-    // Handle window resize
-    const handleResize = () => {
-      if (!containerRef.current) return
-
-      const width = containerRef.current.clientWidth
-      const height = containerRef.current.clientHeight
-
-      camera.aspect = width / height
-      camera.updateProjectionMatrix()
-      renderer.setSize(width, height)
-    }
-
-    window.addEventListener("resize", handleResize)
-
-    // Cleanup
     return () => {
-      window.removeEventListener("resize", handleResize)
+      cancelAnimationFrame(frameId)
+      window.removeEventListener("mousemove", onMouseMove)
+      window.removeEventListener("resize", onResize)
+      particleGeometry.dispose()
+      ;(particles.material as THREE.Material).dispose()
+      torus.geometry.dispose()
+      ;(torus.material as THREE.Material).dispose()
+      ico.geometry.dispose()
+      ;(ico.material as THREE.Material).dispose()
       renderer.dispose()
-      containerRef.current?.removeChild(renderer.domElement)
+      if (container.contains(renderer.domElement)) {
+        container.removeChild(renderer.domElement)
+      }
     }
   }, [])
 
-  return <div ref={containerRef} className="absolute inset-0 -z-10" />
+  return <div ref={containerRef} className="absolute inset-0 -z-10 pointer-events-none" aria-hidden />
 }

@@ -1,31 +1,27 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
+import type { Metadata } from "next"
+import { Montserrat, DM_Sans } from "next/font/google"
+import { Analytics } from "@vercel/analytics/next"
+import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-display",
+  display: "swap",
+})
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+})
 
 export const metadata: Metadata = {
-  title: 'shayan-portfolio',
-  description: 'A professional portfolio website showcasing my projects and skills.',
-  generator: 'Next.js',
+  title: "Shayan Sheikh — Full Stack Developer",
+  description: "Portfolio of Shayan Sheikh — Full Stack Developer specializing in React, Next.js, and modern web tech.",
+  generator: "Next.js",
   icons: {
-    icon: [
-      {
-        url: 'https://www.linkedin.com/in/sheikh-shayan-476402286/',
-        media: '(prefers-color-scheme: light)',
-      },
-      {
-        url: '/icon-dark-32x32.png',
-        media: '(prefers-color-scheme: dark)',
-      },
-      {
-        url: '/icon.svg',
-        type: 'image/svg+xml',
-      },
-    ],
-    apple: '/apple-icon.png',
+    icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
+    apple: "/apple-icon.png",
   },
 }
 
@@ -36,7 +32,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased`}>
+      <body className={`${montserrat.variable} ${dmSans.variable} font-sans antialiased`}>
         {children}
         <Analytics />
       </body>
