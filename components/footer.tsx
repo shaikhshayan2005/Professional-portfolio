@@ -15,7 +15,7 @@ export function Footer() {
       }`}
     >
       <div className="max-w-6xl mx-auto">
-        <span className="block text-accent font-bold text-sm mb-2">04.</span>
+        <span className="block text-accent font-bold text-sm mb-2">05.</span>
         <h3 className="font-display text-4xl md:text-5xl font-extrabold text-foreground mb-4">Let&apos;s Talk</h3>
         <p className="text-muted-foreground leading-relaxed max-w-lg mb-10">
           Open to new projects and opportunities. Reach out if you want to build something together — or just say hello.

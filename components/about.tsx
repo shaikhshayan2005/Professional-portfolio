@@ -13,7 +13,7 @@ export function About() {
             isInView ? "opacity-100" : "opacity-0"
           }`}
         >
-          02.
+          03.
         </span>
         <h2
           className={`font-display text-4xl md:text-5xl font-extrabold text-foreground mb-10 transition-all duration-700 ${

@@ -18,7 +18,6 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: "Shayan Sheikh — Full Stack Developer",
   description: "Portfolio of Shayan Sheikh — Full Stack Developer specializing in React, Next.js, and modern web tech.",
-  generator: "Next.js",
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
     apple: "/apple-icon.png",

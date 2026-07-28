@@ -9,7 +9,7 @@ export function Stats() {
   const stats = [
     { icon: Briefcase, value: "3+", label: "Years Experience" },
     { icon: Layers, value: "4", label: "Companies" },
-    { icon: Code2, value: "20+", label: "Projects Shipped" },
+    { icon: Code2, value: "6+", label: "Client Projects" },
     { icon: Users, value: "10+", label: "Tech Stack Tools" },
   ]
 

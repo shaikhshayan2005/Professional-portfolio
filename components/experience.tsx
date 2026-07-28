@@ -48,7 +48,7 @@ export function Experience() {
             isInView ? "opacity-100" : "opacity-0"
           }`}
         >
-          03.
+          04.
         </span>
         <h2
           className={`font-display text-4xl md:text-5xl font-extrabold text-foreground mb-12 transition-all duration-700 ${
