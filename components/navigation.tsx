@@ -20,8 +20,9 @@ export function Navigation() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-background/95 backdrop-blur-md border-b border-border/60">
       <div className="max-w-6xl mx-auto px-6 py-5 flex items-center justify-between gap-4">
-        <Link href="/" className="font-display text-xl font-bold tracking-tight text-foreground shrink-0">
-          Shayan
+        <Link href="/" className="font-display text-xl font-bold tracking-tight shrink-0">
+          <span className="text-accent">Shayan</span>{" "}
+          <span className="text-foreground">Sheikh</span>
         </Link>
 
         <div className="hidden lg:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
